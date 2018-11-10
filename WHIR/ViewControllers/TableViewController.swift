@@ -151,14 +151,13 @@ extension TableViewController: ISBNScannerDelegate {
                 guard let strongSelf = self else { return }
 
                 // Manage error
-                if error == nil {
+                if error == nil, let book = isbndbBook {
                     // create item
-                    guard let book = isbndbBook else { return }
 
-                let item = NSEntityDescription.insertNewObject(forEntityName: "Book", into: strongSelf.managedObjectContext) as? Book
-                item?.title = book.title
-                item?.summary = book.overview
-                item?.date = NSDate()
+                    let item = NSEntityDescription.insertNewObject(forEntityName: "Book", into: strongSelf.managedObjectContext) as? Book
+                    item?.title = book.title
+                    item?.summary = book.overview
+                    item?.date = NSDate()
 
                     // save to core data
                     strongSelf.managedObjectContext.saveChanges(viewController: strongSelf)
